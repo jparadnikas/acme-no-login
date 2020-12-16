@@ -52,22 +52,11 @@ app.get('/', function(req, res) {
 	res.render('index', {});
 });
 
-app.post('/', function(req, res) {
-	User.findOne({user: req.body.user, pass: req.body.pass}, function (err, user) {
-		if (err) {
-			return res.render('index', {message: err.message});
-		}
-
-		// ---
-
-		if (!user) {
-			return res.render('index', {message: 'Sorry!'});
-		}
-
-		// ---
-
-		return res.render('index', {message: 'Welcome back ' + user.name + '!!!'});
-	});
+app.post('/', async (req, res) => ({
+    const user = await User.findOne({
+	user: req.body.user, 
+	pass: req.body.pass
+    })
 });
 
 // ---
