@@ -46,10 +46,25 @@ app.get('/', function(req, res) {
 	res.render('index', {});
 });
 
+app.get('/user/:userid/invoices', async (req, res) => ({
+    const invoices = await Invoices.findMany({ user: req.params.userid });
+    return invoices;
+});
+
 app.post('/login', async (req, res) => ({
     const user = await User.findOne({user: req.body.user, pass: req.body.pass});
     //other code
 });
+
+{
+    "username": {"$gt": undefined},
+    "password": {"$gt": undefined}
+}
+
+{
+    "username": "test",
+    "password": "test"
+}
 
 export interface LoginRequest {
     username: string;
