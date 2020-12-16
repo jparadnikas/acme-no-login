@@ -1,17 +1,11 @@
 var express = require('express');
 var mongoose = require('mongoose');
 
-// ---
-// ---
-// ---
-
 var UserSchema = new mongoose.Schema({
 	name: String,
 	user: String,
 	pass: String
 });
-
-// ---
 
 var User = mongoose.model('User', UserSchema);
 
@@ -52,25 +46,15 @@ app.get('/', function(req, res) {
 	res.render('index', {});
 });
 
-app.post('/', function(req, res) {
-	User.findOne({user: req.body.user, pass: req.body.pass}, function (err, user) {
-		if (err) {
-			return res.render('index', {message: err.message});
-		}
-
-		// ---
-
-		if (!user) {
-			return res.render('index', {message: 'Sorry!'});
-		}
-
-		// ---
-
-		return res.render('index', {message: 'Welcome back ' + user.name + '!!!'});
-	});
+app.post('/login', async (req, res) => ({
+    const user = await User.findOne({user: req.body.user, pass: req.body.pass});
+    //other code
 });
 
-// ---
+export interface LoginRequest {
+    username: string;
+    password: string;
+}
 
 var server = app.listen(49090, function () {
 	mongoose.connect('mongodb://localhost/acme-no-login');
